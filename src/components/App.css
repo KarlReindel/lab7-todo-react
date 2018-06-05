@@ -15,6 +15,10 @@ body {
   z-index: 10;
   pointer-events: none;
 }
+.complete{
+  text-decoration: line-through;
+  color: crimson;
+}
 body.show-floater .floater {
   transform: scale(1.1);
 }

@@ -1,29 +1,52 @@
 import React from 'react';
 
-class TaskForm extends React.Component {
+class Task extends React.Component {
+
+    constructor(props) {
+        super(props);
+
+        this.toggleTaskStatus = this.toggleTaskStatus.bind(this);
+    }
+    toggleTaskStatus(){
+        this.props.toggleTaskStatus(this.props.index);
+    }
+
+    onDeleteClick(event) {
+        event.preventDefault();
+        this.props.deleteTask(this.props.index);
+    }
 
     render() {
+        const task = this.props.task;
+        const onChange = this.toggleTaskStatus;
+        const onDeleteClick = this.onDeleteClick.bind(this);
+        const taskClassName = (!task.isComplete) ?
+            'col-md-10 col-xs-10 col-lg-10 col-sm-10 task-text' : 
+            'col-md-10 col-xs-10 col-lg-10 col-sm-10 task-text complete';
         return (
-            <div className="row input-area">
-                <form onSubmit={this.submitTask}>
-                    <div class="col-md-1">
-                        <label htmlFor="task">Task:</label>
+            <div className="row">
+                <li className="list-group-item checkbox">
+                    <div className="row">
+                        <div className="col-md-1 col-xs-1 col-lg-1 col-sm-1 checkbox">
+                            <label>
+                                <input id={this.props.index} type="checkbox" value="" 
+                                className="chechbox" checked={task.isComplete}
+                                onChange={onChange} />
+                            </label>
+                        </div>
+                        <div className={taskClassName}>
+                            {task.task}
+                        </div>
+                        <div className="col-md-1 col-xs-1 col-lg-1 col-sm-1 delete-icon-area">
+                            <a className="" href="/" onClick={onDeleteClick}>
+                                <i id="deleteTask" className="delete-icon glyphicon glyphicon-trash"></i>
+                            </a>
+                        </div>
                     </div>
-                    <div class="form-group col-md-10">
-                        <input className="form-control"
-                            type="input" name="task" 
-                            value={this.state.task}
-                            onInput={this.inputUpdated}
-                        />
-                    </div>
-                    <div class="form-group col-md-1">
-                        <button type="submit" className="btn btn-success"> Add Task </button>
-                    </div>
-                    <div class="col-md-1"></div>
-                </form>
+                </li>
             </div>
         );
     }
 }
 
-export default TaskForm;
+export default Task;
